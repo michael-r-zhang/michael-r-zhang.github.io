@@ -3,14 +3,18 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Arkiv | Michael Zhang的博客</title>
+  <title>齐次坐标的前世今生 | Michael Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Michael Zhang的博客">
-<meta property="og:url" content="http://yoursite.com/archives/index.html">
+  <meta name="description" content="齐次坐标是怎么被发现的，如何理解，又有哪些应用场景呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="齐次坐标的前世今生">
+<meta property="og:url" content="http://yoursite.com/2016/08/08/20160809_homogeneous_coordinates/index.html">
 <meta property="og:site_name" content="Michael Zhang的博客">
+<meta property="og:description" content="齐次坐标是怎么被发现的，如何理解，又有哪些应用场景呢？">
+<meta property="og:updated_time" content="2016-08-08T09:57:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Michael Zhang的博客">
+<meta name="twitter:title" content="齐次坐标的前世今生">
+<meta name="twitter:description" content="齐次坐标是怎么被发现的，如何理解，又有哪些应用场景呢？">
   
     <link rel="alternate" href="/atom.xml" title="Michael Zhang的博客" type="application/atom+xml">
   
@@ -59,77 +63,57 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2016" class="archive-year">2016</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/08/20160809_homogeneous_coordinates/" class="archive-article-date">
-  <time datetime="2016-08-08T09:57:45.000Z" itemprop="datePublished">Aug 8</time>
+        <section id="main"><article id="post-20160809_homogeneous_coordinates" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/08/20160809_homogeneous_coordinates/" class="article-date">
+  <time datetime="2016-08-08T09:57:45.000Z" itemprop="datePublished">2016-08-08</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/数学/">数学</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/08/20160809_homogeneous_coordinates/">齐次坐标的前世今生</a>
+    <h1 class="article-title" itemprop="name">
+      齐次坐标的前世今生
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/08/20160808_js_number_encoding/" class="archive-article-date">
-  <time datetime="2016-08-08T09:57:13.000Z" itemprop="datePublished">Aug 8</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/08/20160808_js_number_encoding/">由js&quot;左移32位&quot;谈到Number类型数据</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2016/08/08/20160807_why-write-blog/" class="archive-article-date">
-  <time datetime="2016-08-08T07:40:33.000Z" itemprop="datePublished">Aug 8</time>
-</a>
+        <h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h2 id="几何"><a href="#几何" class="headerlink" title="几何"></a>几何</h2><h2 id="解析几何"><a href="#解析几何" class="headerlink" title="解析几何"></a>解析几何</h2><h2 id="射影几何"><a href="#射影几何" class="headerlink" title="射影几何"></a>射影几何</h2><h2 id="齐次坐标"><a href="#齐次坐标" class="headerlink" title="齐次坐标"></a>齐次坐标</h2><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2016/08/08/20160807_why-write-blog/">为什么要写作？</a>
-    </h1>
-  
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/08/20160809_homogeneous_coordinates/" data-id="cirlvn43600024gxg93eltowe" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/射影几何/">射影几何</a></li></ul>
 
-    </header>
+    </footer>
   </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2016/08/08/20160808_js_number_encoding/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">由js&quot;左移32位&quot;谈到Number类型数据</div>
+    </a>
+  
+</nav>
+
+  
 </article>
-  
-  
-    </div></section>
-  
 
 </section>
         
