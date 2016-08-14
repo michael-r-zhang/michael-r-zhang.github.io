@@ -4,18 +4,14 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>由js&quot;左移32位&quot;谈到Number类型数据 | Michael R. Zhang的博客</title>
+  <title>Tag: 特征 | Michael R. Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="js做移位运算会有">
-<meta property="og:type" content="article">
-<meta property="og:title" content="由js"左移32位"谈到Number类型数据">
-<meta property="og:url" content="http://yoursite.com/2016/08/13/20160808_js_number_encoding/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Michael R. Zhang的博客">
+<meta property="og:url" content="http://yoursite.com/tags/特征/index.html">
 <meta property="og:site_name" content="Michael R. Zhang的博客">
-<meta property="og:description" content="js做移位运算会有">
-<meta property="og:updated_time" content="2016-08-13T14:35:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="由js"左移32位"谈到Number类型数据">
-<meta name="twitter:description" content="js做移位运算会有">
+<meta name="twitter:title" content="Michael R. Zhang的博客">
   
     <link rel="alternative" href="/atom.xml" title="Michael R. Zhang的博客" type="application/atom+xml">
   
@@ -68,151 +64,39 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main"><article id="post-20160808_js_number_encoding" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/08/13/20160808_js_number_encoding/" class="article-date">
-  <time datetime="2016-08-13T05:21:50.000Z" itemprop="datePublished">2016-08-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
+      <section id="main">
   
-    <h1 class="article-title" itemprop="name">
-      由js&quot;左移32位&quot;谈到Number类型数据
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2016" class="archive-year">2016</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      <a href="/2016/08/13/20160811_mser/" class="archive-article-date">
+  <time datetime="2016-08-13T09:48:15.000Z" itemprop="datePublished">Aug 13</time>
+</a>
+      
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2016/08/13/20160811_mser/">理解MSER (Maximally Stable Extremal Regions)</a>
     </h1>
   
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span> &lt;&lt; <span class="number">32</span>;</div><div class="line"><span class="keyword">var</span> y = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">32</span>);</div><div class="line">x = ?</div><div class="line">y = ?</div></pre></td></tr></table></figure>
-<h2 id="Number数据的存储"><a href="#Number数据的存储" class="headerlink" title="Number数据的存储"></a>Number数据的存储</h2><p>JS底层采用浮点数存储Number类型数据，遵循<a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank" rel="external">IEEE 754标准</a>。JS采用8字节(64位)存储浮点数，具体格式为：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">二进制数据位置</th>
-<th style="text-align:center">存储内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0-51</td>
-<td style="text-align:center">小数</td>
-</tr>
-<tr>
-<td style="text-align:center">52-62</td>
-<td style="text-align:center">指数</td>
-</tr>
-<tr>
-<td style="text-align:center">63</td>
-<td style="text-align:center">符号位</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>详细存储格式请参考<a href="http://www.2ality.com/2012/04/number-encoding.html" target="_blank" rel="external">How numbers are encoded in JavaScript</a></p>
-<h2 id="整数相关的操作"><a href="#整数相关的操作" class="headerlink" title="整数相关的操作"></a>整数相关的操作</h2><p>在JS中，所有的整数操作（加、减、乘、除、乘方、开方、位运算）在实际执行时均遵循如下模式：</p>
-<ul>
-<li>将操作数转换为浮点数</li>
-<li>操作数转为整数</li>
-<li>计算</li>
-<li>将整数结果转换为一个浮点数</li>
-</ul>
-<p>计算过程中会将浮点数转为整数，而这里的整数有4种类型：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">取值范围</th>
-<th style="text-align:center">应用场景</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Integer</td>
-<td style="text-align:center"><script type="math/tex">{[-2^{53}, 2^{53}]}</script></td>
-<td style="text-align:center">用于大部分的整数操作</td>
-</tr>
-<tr>
-<td style="text-align:center">Uint16</td>
-<td style="text-align:center"><script type="math/tex">{[0, 2^{16}-1]}</script></td>
-<td style="text-align:center">字符计算(character codes)</td>
-</tr>
-<tr>
-<td style="text-align:center">Uint32</td>
-<td style="text-align:center"><script type="math/tex">{[0, 2^{32}-1]}</script></td>
-<td style="text-align:center">数组长度</td>
-</tr>
-<tr>
-<td style="text-align:center">Int32</td>
-<td style="text-align:center"><script type="math/tex">{[-2^{31}, 2^{31}-1]}</script></td>
-<td style="text-align:center">位操作、无符号移位操作、按位取反</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="解答文章开头的问题"><a href="#解答文章开头的问题" class="headerlink" title="解答文章开头的问题"></a>解答文章开头的问题</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第一个问题</span></div><div class="line"><span class="keyword">var</span> x = <span class="number">2</span> &lt;&lt; <span class="number">32</span>;</div></pre></td></tr></table></figure>
-<p>第一步：由于是移位运算，1会转换为Int32类型（取值范围是<script type="math/tex">{[-2^{31}, 2^{31}-1]}</script>）<br>第二步：计算1&lt;&lt;32。 1&lt;&lt;32 = 1&lt;&lt;(32%32) = 1&lt;&lt;0 = 1。（左移里一个比较特殊的情况是当左移的位数超过该数值类型的最大位数时，编译器/解释器会用左移的位数去模类型的最大位数，然后按余数进行移位。JS从现象看遵循该规则）<br>第三步：将计算结果转为浮点数<br>因此</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">1</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第二个问题</span></div><div class="line"><span class="keyword">var</span> y = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">32</span>);</div></pre></td></tr></table></figure>
-<p>第一步：由于是乘方运算，2会转换为Integer类型（取值范围是<script type="math/tex">{[-2^{53}, 2^{53}]}</script>）<br>第二步：计算2^32<br>第三步：将计算结果转为浮点数<br>因此</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">y = 2^32 = 4294967296</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2016/08/13/20160808_js_number_encoding/" data-id="cirupaeob0000a5s6g1e1m9mn" class="article-share-link" data-share="baidu" data-title="由js&quot;左移32位&quot;谈到Number类型数据">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/2016/08/13/20160808_js_number_encoding/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-
-    </footer>
+    </header>
   </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/08/13/20160811_mser/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Newer</strong>
-      <div class="article-nav-title">
-        
-          理解MSER (Maximally Stable Extremal Regions)
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/08/13/20160807_why-write-blog/" id="article-nav-older" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">为什么要写作？</div>
-    </a>
-  
-</nav>
-
-  
 </article>
-
-
-  <section id="comments">
-    <div id="ds-thread" class="ds-thread" data-thread-key="2016/08/13/20160808_js_number_encoding/" data-title="由js&quot;左移32位&quot;谈到Number类型数据" data-url="http://yoursite.com/2016/08/13/20160808_js_number_encoding/"></div>
-  </section>
+  
+  
+    </div></section>
+  
 </section>
       
       <aside id="sidebar">

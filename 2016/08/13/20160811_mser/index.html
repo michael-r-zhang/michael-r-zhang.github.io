@@ -4,14 +4,22 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Michael R. Zhang的博客</title>
+  <title>理解MSER (Maximally Stable Extremal Regions) | Michael R. Zhang的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Michael R. Zhang的博客">
-<meta property="og:url" content="http://yoursite.com/index.html">
+  <meta name="description" content="MSER算法理解">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解MSER (Maximally Stable Extremal Regions)">
+<meta property="og:url" content="http://yoursite.com/2016/08/13/20160811_mser/index.html">
 <meta property="og:site_name" content="Michael R. Zhang的博客">
+<meta property="og:description" content="MSER算法理解">
+<meta property="og:image" content="http://7xrnby.com1.z0.glb.clouddn.com/image_map.png">
+<meta property="og:image" content="http://7xrnby.com1.z0.glb.clouddn.com/immersion_analogy.png?imageView/3/w/200/h/200">
+<meta property="og:image" content="http://7xrnby.com1.z0.glb.clouddn.com/yellowman_mser.png?imageView/3/w/300/h/300">
+<meta property="og:updated_time" content="2016-08-14T13:21:13.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Michael R. Zhang的博客">
+<meta name="twitter:title" content="理解MSER (Maximally Stable Extremal Regions)">
+<meta name="twitter:description" content="MSER算法理解">
+<meta name="twitter:image" content="http://7xrnby.com1.z0.glb.clouddn.com/image_map.png">
   
     <link rel="alternative" href="/atom.xml" title="Michael R. Zhang的博客" type="application/atom+xml">
   
@@ -64,9 +72,7 @@
   </div>
 </header>
     <div class="outer">
-      <section id="main">
-  
-    <article id="post-20160811_mser" class="article article-type-post" itemscope itemprop="blogPost">
+      <section id="main"><article id="post-20160811_mser" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/08/13/20160811_mser/" class="article-date">
   <time datetime="2016-08-13T09:48:15.000Z" itemprop="datePublished">2016-08-13</time>
@@ -83,8 +89,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/13/20160811_mser/">理解MSER (Maximally Stable Extremal Regions)</a>
+    <h1 class="article-title" itemprop="name">
+      理解MSER (Maximally Stable Extremal Regions)
     </h1>
   
 
@@ -185,195 +191,24 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-20160808_js_number_encoding" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/08/13/20160808_js_number_encoding/" class="article-date">
-  <time datetime="2016-08-13T05:21:50.000Z" itemprop="datePublished">2016-08-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/编程语言/">编程语言</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/13/20160808_js_number_encoding/">由js&quot;左移32位&quot;谈到Number类型数据</a>
-    </h1>
+    <a href="/2016/08/13/20160808_js_number_encoding/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">由js&quot;左移32位&quot;谈到Number类型数据</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> x = <span class="number">1</span> &lt;&lt; <span class="number">32</span>;</div><div class="line"><span class="keyword">var</span> y = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">32</span>);</div><div class="line">x = ?</div><div class="line">y = ?</div></pre></td></tr></table></figure>
-<h2 id="Number数据的存储"><a href="#Number数据的存储" class="headerlink" title="Number数据的存储"></a>Number数据的存储</h2><p>JS底层采用浮点数存储Number类型数据，遵循<a href="https://en.wikipedia.org/wiki/IEEE_floating_point" target="_blank" rel="external">IEEE 754标准</a>。JS采用8字节(64位)存储浮点数，具体格式为：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">二进制数据位置</th>
-<th style="text-align:center">存储内容</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">0-51</td>
-<td style="text-align:center">小数</td>
-</tr>
-<tr>
-<td style="text-align:center">52-62</td>
-<td style="text-align:center">指数</td>
-</tr>
-<tr>
-<td style="text-align:center">63</td>
-<td style="text-align:center">符号位</td>
-</tr>
-</tbody>
-</table>
-</div>
-<p>详细存储格式请参考<a href="http://www.2ality.com/2012/04/number-encoding.html" target="_blank" rel="external">How numbers are encoded in JavaScript</a></p>
-<h2 id="整数相关的操作"><a href="#整数相关的操作" class="headerlink" title="整数相关的操作"></a>整数相关的操作</h2><p>在JS中，所有的整数操作（加、减、乘、除、乘方、开方、位运算）在实际执行时均遵循如下模式：</p>
-<ul>
-<li>将操作数转换为浮点数</li>
-<li>操作数转为整数</li>
-<li>计算</li>
-<li>将整数结果转换为一个浮点数</li>
-</ul>
-<p>计算过程中会将浮点数转为整数，而这里的整数有4种类型：</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">类型</th>
-<th style="text-align:center">取值范围</th>
-<th style="text-align:center">应用场景</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">Integer</td>
-<td style="text-align:center"><script type="math/tex">{[-2^{53}, 2^{53}]}</script></td>
-<td style="text-align:center">用于大部分的整数操作</td>
-</tr>
-<tr>
-<td style="text-align:center">Uint16</td>
-<td style="text-align:center"><script type="math/tex">{[0, 2^{16}-1]}</script></td>
-<td style="text-align:center">字符计算(character codes)</td>
-</tr>
-<tr>
-<td style="text-align:center">Uint32</td>
-<td style="text-align:center"><script type="math/tex">{[0, 2^{32}-1]}</script></td>
-<td style="text-align:center">数组长度</td>
-</tr>
-<tr>
-<td style="text-align:center">Int32</td>
-<td style="text-align:center"><script type="math/tex">{[-2^{31}, 2^{31}-1]}</script></td>
-<td style="text-align:center">位操作、无符号移位操作、按位取反</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="解答文章开头的问题"><a href="#解答文章开头的问题" class="headerlink" title="解答文章开头的问题"></a>解答文章开头的问题</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第一个问题</span></div><div class="line"><span class="keyword">var</span> x = <span class="number">2</span> &lt;&lt; <span class="number">32</span>;</div></pre></td></tr></table></figure>
-<p>第一步：由于是移位运算，1会转换为Int32类型（取值范围是<script type="math/tex">{[-2^{31}, 2^{31}-1]}</script>）<br>第二步：计算1&lt;&lt;32。 1&lt;&lt;32 = 1&lt;&lt;(32%32) = 1&lt;&lt;0 = 1。（左移里一个比较特殊的情况是当左移的位数超过该数值类型的最大位数时，编译器/解释器会用左移的位数去模类型的最大位数，然后按余数进行移位。JS从现象看遵循该规则）<br>第三步：将计算结果转为浮点数<br>因此</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">x = <span class="number">1</span></div></pre></td></tr></table></figure>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="comment">// 第二个问题</span></div><div class="line"><span class="keyword">var</span> y = <span class="built_in">Math</span>.pow(<span class="number">2</span>, <span class="number">32</span>);</div></pre></td></tr></table></figure>
-<p>第一步：由于是乘方运算，2会转换为Integer类型（取值范围是<script type="math/tex">{[-2^{53}, 2^{53}]}</script>）<br>第二步：计算2^32<br>第三步：将计算结果转为浮点数<br>因此</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">y = 2^32 = 4294967296</div></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2016/08/13/20160808_js_number_encoding/" data-id="cirupaeob0000a5s6g1e1m9mn" class="article-share-link" data-share="baidu" data-title="由js&quot;左移32位&quot;谈到Number类型数据">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/2016/08/13/20160808_js_number_encoding/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
 
 
-  
-    <article id="post-20160807_why-write-blog" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2016/08/13/20160807_why-write-blog/" class="article-date">
-  <time datetime="2016-08-13T05:21:26.000Z" itemprop="datePublished">2016-08-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/13/20160807_why-write-blog/">为什么要写作？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>编程和阅读填满了我当前的生活，如果再加上写作，那就美妙极了。毕竟由不稳定的两点结构，变为了稳定的三点结构。</p>
-<p>编程与写作是非常相近的，都是作者对思想的表达。优秀的码农在编码之前会花大量时间思考，当构思出一个优美的解决方案后，编码就显得水到渠成；同样，写作也需要作者花费大量时间去思考、整理、优化表达。</p>
-<p>这都是关于思想的输出。</p>
-<h2 id="1-写作动机"><a href="#1-写作动机" class="headerlink" title="1. 写作动机"></a>1. 写作动机</h2><ul>
-<li><p>构建自己的知识体系<br>剖析有趣的问题，使相对独立的知识形成连接，构建自己的知识网络。</p>
-</li>
-<li><p>表达自己的观点<br>向世界发声，表达自己对世界的理解。</p>
-</li>
-<li><p>与世界交流<br>互联网极大降低了人与人建立连接的成本，通过博客建立自己与世界的联系。</p>
-</li>
-<li><p>收获成就感<br>帮助他人，获取精神愉悦。</p>
-</li>
-</ul>
-<h2 id="2-关心的主题"><a href="#2-关心的主题" class="headerlink" title="2. 关心的主题"></a>2. 关心的主题</h2><p>我主要关心：</p>
-<ul>
-<li>数学</li>
-<li>计算机</li>
-<li>科技史</li>
-<li>哲学、宗教、历史等可以更好理解这个世界的知识与话题</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      
-        <a data-url="http://yoursite.com/2016/08/13/20160807_why-write-blog/" data-id="cirupaeol0002a5s6noazgmiz" class="article-share-link" data-share="baidu" data-title="为什么要写作？">Share</a>
-      
-
-      
-        <a href="http://yoursite.com/2016/08/13/20160807_why-write-blog/#ds-thread" class="article-comment-link">Comments</a>
-      
-
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-  
+  <section id="comments">
+    <div id="ds-thread" class="ds-thread" data-thread-key="2016/08/13/20160811_mser/" data-title="理解MSER (Maximally Stable Extremal Regions)" data-url="http://yoursite.com/2016/08/13/20160811_mser/"></div>
+  </section>
 </section>
       
       <aside id="sidebar">
